@@ -4,10 +4,9 @@ const fs = require("fs");
 const fastcsv = require("fast-csv");
 
 class DifferentDTO {
-  constructor(id, title, body) {
+  constructor(id, title) {
     this.id = id;
     this.title = title;
-    this.body = body;
   }
 }
 
@@ -29,9 +28,7 @@ const fetchDataFromAPI = async () => {
 };
 
 const convertToDifferentDTO = (apiData) => {
-  return apiData.map(
-    (item) => new DifferentDTO(item.id, item.title, item.body)
-  );
+  return apiData.map((item) => new DifferentDTO(item.id, item.title));
 };
 
 const createCSV = (data) => {
@@ -48,6 +45,6 @@ const createCSV = (data) => {
 };
 
 //background worker ->extract data in every 5 minutes
-cron.schedule("5 * * * *", fetchDataFromAPI);
+cron.schedule("*/5 * * * *", fetchDataFromAPI);
 
 module.exports = { fetchDataFromAPI, createCSV, convertToDifferentDTO };
