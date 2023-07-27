@@ -47,4 +47,9 @@ const createCSV = (data) => {
 //background worker ->extract data in every 5 minutes
 cron.schedule("*/5 * * * *", fetchDataFromAPI);
 
-module.exports = { fetchDataFromAPI, createCSV, convertToDifferentDTO };
+module.exports = {
+  fetchDataFromAPI,
+  createCSV,
+  convertToDifferentDTO,
+  DifferentDTO,
+};

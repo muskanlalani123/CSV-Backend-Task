@@ -1,5 +1,10 @@
 const axios = require("axios");
-const { fetchDataFromAPI, createCSV } = require("../Controllers/dataFetcher");
+const {
+  fetchDataFromAPI,
+  createCSV,
+  DifferentDTO,
+  convertToDifferentDTO,
+} = require("../Controllers/dataFetcher");
 
 jest.mock("axios");
 
@@ -37,5 +42,42 @@ describe("createCSV", () => {
     ];
 
     createCSV(data);
+  });
+});
+
+describe("convertToDifferentDTO", () => {
+  test("should return an array of DifferentDTO objects with id and title", () => {
+    const apiData = [
+      {
+        id: 1,
+        title: "First Post",
+        body: "This is the body of the first post",
+      },
+      {
+        id: 2,
+        title: "Second Post",
+        body: "This is the body of the second post",
+      },
+    ];
+
+    const result = convertToDifferentDTO(apiData);
+
+    // Check if the result is an array
+    expect(Array.isArray(result)).toBe(true);
+
+    // Check if the array contains instances of DifferentDTO with id and title properties
+    result.forEach((dto) => {
+      expect(dto).toBeInstanceOf(DifferentDTO);
+      expect(dto).toHaveProperty("id");
+      expect(dto).toHaveProperty("title");
+    });
+  });
+
+  test("should return an empty array for empty input", () => {
+    const apiData = [];
+
+    const result = convertToDifferentDTO(apiData);
+
+    expect(result).toEqual([]);
   });
 });
